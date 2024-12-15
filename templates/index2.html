@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Sensor Data Dashboard</h1>
+
+    <!-- Data Table -->
+    <table border="1" id="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Timestamp</th>
+                <th>PPM Inlet</th>
+                <th>CO2 Inlet</th>
+                <th>Temp Inlet</th>
+                <th>PPM Outlet</th>
+                <th>CO2 Outlet</th>
+                <th>ML Prediction</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Graphs -->
+    <div>
+        <h2>PPM Inlet</h2>
+        <canvas id="ppmInletChart"></canvas>
+    </div>
+    <div>
+        <h2>CO2 Inlet</h2>
+        <canvas id="co2InletChart"></canvas>
+    </div>
+    <div>
+        <h2>Temperature Inlet</h2>
+        <canvas id="tempInletChart"></canvas>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

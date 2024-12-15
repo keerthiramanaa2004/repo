@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Data Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { text-align: center; }
+        .data { margin: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Sensor Data Dashboard</h1>
+    <div class="data">
+        <p><strong>PPM Inlet:</strong> <span id="ppmInlet">Loading...</span></p>
+        <p><strong>CO2 Inlet:</strong> <span id="co2Inlet">Loading...</span></p>
+        <p><strong>CO2 Inlet g/s:</strong> <span id="co2Inletgs">Loading...</span></p>
+        <p><strong>Temperature:</strong> <span id="temp_inlet">Loading...</span></p>
+        <p><strong>PPM Outlet:</strong> <span id="ppmOutlet">Loading...</span></p>
+        <p><strong>CO2 Outlet:</strong> <span id="co2Outlet">Loading...</span></p>
+        <p><strong>CO2 Outlet g/s:</strong> <span id="co2Outletgs">Loading...</span></p>
+        <p><strong>ML Prediction:</strong> <span id="zeoliteflow">Loading...</span></p>
+    </div>
+    <script>
+ let lastData = {
+            ppm_inlet: "Loading...",
+            co2_inlet: "Loading...",
+            temp_inlet: "Loading...",
+            ppm_outlet: "Loading...",
+            co2_outlet: "Loading...",
+            ml_prediction: "Loading...",
+            co2_inlet_gs: "Loading...",
+            co2_outlet_gs: "Loading..."
+        };
+
+
+        function fetchData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('ppmInlet').innerText = data.ppm_inlet;
+                    document.getElementById('co2Inlet').innerText = data.co2_inlet;
+                    document.getElementById('temp_inlet').innerText = data.temp_inlet;
+                    document.getElementById('ppmOutlet').innerText = data.ppm_outlet;
+                    document.getElementById('co2Outlet').innerText = data.co2_outlet;
+                    document.getElementById('zeoliteflow').innerText = data.ml_prediction;
+
+                    const factor = 0.0001225;
+                    const co2Inletgs = data.co2_inlet * factor;
+                    const co2Outletgs = data.co2_outlet * factor;
+
+                    // Display the multiplied values
+                    document.getElementById('co2Inletgs').innerText = co2Inletgs.toFixed(5);
+                    document.getElementById('co2Outletgs').innerText = co2Outletgs.toFixed(5);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+                 // If there is an error, display the last valid data
+                 document.getElementById('ppmInlet').innerText = lastData.ppm_inlet;
+                    document.getElementById('co2Inlet').innerText = lastData.co2_inlet;
+                    document.getElementById('temp_inlet').innerText = lastData.temp_inlet;
+                    document.getElementById('ppmOutlet').innerText = lastData.ppm_outlet;
+                    document.getElementById('co2Outlet').innerText = lastData.co2_outlet;
+                    document.getElementById('zeoliteflow').innerText = lastData.ml_prediction;
+                    document.getElementById('co2Inletgs').innerText = lastData.co2_inlet_gs;
+                    document.getElementById('co2Outletgs').innerText = lastData.co2_outlet_gs;
+        }
+
+        setInterval(fetchData, 1000);
+    </script>
+</body>
+</html>
